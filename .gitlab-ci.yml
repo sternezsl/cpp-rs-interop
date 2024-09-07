@@ -1,0 +1,55 @@
+variables:
+  CMAKE_PATH: /opt/ucc/cmake/3.20.0/bin/cmake
+  PROJECT_NAME: cpp-rs-interop
+  PROJECT_VERSION: 2024.08.15
+  TOOLCHAIN_PATH: /opt/ucc/tools/cmake/toolchain/ucc.cmake
+  UCC_ROOT: /opt/ucc
+  UCC_VERSION: 18.1.6
+  OSS_SDK_ROOT: /opt/oss
+  GIT_SUBMODULE_STRATEGY: recursive
+
+before_script:
+  - export CARGO_HOME=~/.cargo
+  - export RUSTUP_HOME=/opt/rustup
+  - export PATH=~/.cargo/bin:$PATH
+
+stages:
+  - build
+
+aarch64-unknown-linux-gnu:
+  stage: build
+  tags:
+    - debian-142
+  script:
+    - mkdir -p ../build/$PROJECT_NAME/$CI_JOB_NAME && cd ../build/$PROJECT_NAME/$CI_JOB_NAME
+    - $CMAKE_PATH ../../../$PROJECT_NAME -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_TOOLCHAIN_FILE=$TOOLCHAIN_PATH -DPLATFORM=$CI_JOB_NAME -DTOOLCHAIN_NAME=ucc -DCXXSTL=libcxx
+    - make -j24
+
+x86_64-unknown-linux-gnu:
+  stage: build
+  tags:
+    - debian-142
+  script:
+    - mkdir -p ../build/$PROJECT_NAME/$CI_JOB_NAME && cd ../build/$PROJECT_NAME/$CI_JOB_NAME
+    - $CMAKE_PATH ../../../$PROJECT_NAME -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_TOOLCHAIN_FILE=$TOOLCHAIN_PATH -DPLATFORM=$CI_JOB_NAME -DTOOLCHAIN_NAME=ucc -DCXXSTL=libcxx
+    - make -j24
+
+
+aarch64-apple-darwin:
+  stage: build
+  tags:
+    - debian-142
+  script:
+    - mkdir -p ../build/$PROJECT_NAME/$CI_JOB_NAME && cd ../build/$PROJECT_NAME/$CI_JOB_NAME
+    - $CMAKE_PATH ../../../$PROJECT_NAME -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_TOOLCHAIN_FILE=$TOOLCHAIN_PATH -DPLATFORM=$CI_JOB_NAME -DTOOLCHAIN_NAME=ucc -DCXXSTL=libcxx
+    - make -j24
+
+x86_64-pc-windows-msvc:
+  stage: build
+  tags:
+    - debian-142
+  script:
+    - mkdir -p ../build/$PROJECT_NAME/$CI_JOB_NAME && cd ../build/$PROJECT_NAME/$CI_JOB_NAME
+    - $CMAKE_PATH ../../../$PROJECT_NAME -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_TOOLCHAIN_FILE=$TOOLCHAIN_PATH -DPLATFORM=$CI_JOB_NAME -DTOOLCHAIN_NAME=ucc
+    - make -j24    
+    

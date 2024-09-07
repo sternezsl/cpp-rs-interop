@@ -1,0 +1,14 @@
+[package]
+name = "cpp-rs-interop"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = "1.0.86"
+blobstore-rs = { path = "./blobstore-rs" }
+futures = { version = "0.3.30", features = ["thread-pool"] }
+tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
+
+[profile.relwithdebinfo]
+inherits = "release"
+debug = true
