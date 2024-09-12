@@ -1,18 +1,16 @@
 #include <fmt/ranges.h>
-#include <folly/coro/BlockingWait.h>
-#include <folly/coro/Collect.h>
+#include <folly/experimental/coro/BlockingWait.h>
+#include <folly/experimental/coro/Collect.h>
 #include <folly/io/async/ScopedEventBaseThread.h>
-
-#include <iostream>
 
 #include "blobstore-rs/src/bridge.rs.h"
 #include "blobstore/blobstore.h"
 
 using folly::coro::blockingWait;
 using folly::coro::collectAll;
-// using org::blobstore::MultiBuf;
-// using org::blobstore::new_blobstore_client;
-// using org::blobstore::VecU8;
+using org::blobstore::MultiBuf;
+using org::blobstore::new_blobstore_client;
+using org::blobstore::VecU8;
 int main() {
   auto create_buf = [](std::string&& str1, std::string&& str2) {
     VecU8 v1, v2;

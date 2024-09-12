@@ -64,8 +64,8 @@ target_include_directories(
   PRIVATE
   ${CMAKE_SOURCE_DIR}
   ${BLOBSTORE_DIR}
-  ${CARGO_TARGET_DIR}/${PLATFORM}/cxxbridge
-  "/ucla/svn/FaceRec/third_party/rust/cxx-async/cxx-async/include")
+  ${BLOBSTORE_DIR}/cxx-async/cxx-async/include
+  ${CARGO_TARGET_DIR}/${PLATFORM}/cxxbridge)
 target_link_libraries(cpp_rs_inteop ${BLOBSTORE_LIB} folly::folly)
 # Windows-only configuration
 if(WIN32)
@@ -90,7 +90,7 @@ if(TARGET folly::folly)
   get_target_property(_boost_thread_lib_location folly::boost_thread IMPORTED_LOCATION_RELWITHDEBINFO)
 endif()
 
-set(CARGO_RUSTFLAGS "-Clinker=${CMAKE_CXX_COMPILER} -Clink-arg=--target=${PLATFORM} -Clink-arg=-nostdlib++ -Clink-arg=-fuse-ld=${CMAKE_LINKER} -Clink-arg=--sysroot=${CARGO_SYSROOT} -Clink-arg=-L${UCC_TOOLCHAIN_ROOT}/runtime/${UCC_VERSION}/lib/${PLATFORM} -Clink-arg=-Wl,-rpath,${UCC_TOOLCHAIN_ROOT}/runtime/${UCC_VERSION}/lib/${PLATFORM} -Clink-arg=${_folly_lib_location}")
+set(CARGO_RUSTFLAGS "-Clinker=${CMAKE_CXX_COMPILER} -Clink-arg=-nostdlib++ -Clink-arg=-fuse-ld=${CMAKE_LINKER} -Clink-arg=--sysroot=${CARGO_SYSROOT} -Clink-arg=-L${UCC_TOOLCHAIN_ROOT}/runtime/${UCC_VERSION}/lib/${PLATFORM} -Clink-arg=-Wl,-rpath,${UCC_TOOLCHAIN_ROOT}/runtime/${UCC_VERSION}/lib/${PLATFORM} -Clink-arg=${_folly_lib_location}")
 if(PLATFORM STREQUAL aarch64-unknown-linux-gnu)
   set(CARGO_RUSTFLAGS "${CARGO_RUSTFLAGS} -Clink-arg=${CARGO_SYSROOT}/usr/lib/libc_nonshared.a -Clink-arg=--gcc-toolchain=${NATIVE_TOOLCHAIN_ROOT} -Clink-arg=-lc++")
 elseif(PLATFORM STREQUAL x86_64-unknown-linux-gnu)
